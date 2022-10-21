@@ -3,6 +3,7 @@ package com.company;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -26,15 +27,33 @@ public class Main {
         PackageQueue economyShipping = new PackageQueue();
         PackageQueue priorityShipping = new PackageQueue();
         PackageQueue overnightShipping = new PackageQueue();
-
         while (timer<timeLimit){
-            int ship = shipping.nextInt(100);
+            int ship = shipping.nextInt(chanceArray.length);
             int lb = weight.nextInt(100)+1;
-            int itemNum = name.nextInt(50)+1;
-             String na = "Jam";
-            new Package(na,lb,null);
+            int itemNum = name.nextInt(descriptionsArray.length);
+            if(chanceArray[ship].equals("economy")){
+                economyShipping.enqueue(new Package(descriptionsArray[itemNum],lb,null));
+                if(timer%10 ==0){
+                    System.out.println(economyShipping.peek());
+                }
+            }
+            else if(chanceArray[ship].equals("priority")){
+                priorityShipping.enqueue(new Package(descriptionsArray[itemNum],lb,null ));
+                if(timer%10 ==0){
+                    System.out.println(priorityShipping.peek());
+                }
+            }
+            else if(chanceArray[ship].equals("overnight")){
+                overnightShipping.enqueue(new Package(descriptionsArray[itemNum],lb,null));
+                if(timer%10 ==0){
+                    System.out.println(overnightShipping.peek());
+                }
+            }
             ++timer;
         }
+        System.out.println("Economy size: " + economyShipping.size);
+        System.out.println("Priority size: " + priorityShipping.size);
+        System.out.println("OverNight size: " + overnightShipping.size);
     }
 
     public static String[] fillArray(int economyChance, int priorityChance, int overnightChance) {
